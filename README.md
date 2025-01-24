@@ -33,17 +33,9 @@ sudo tar -C /usr/local -xzf go1.13.linux-amd64.tar.gz
 ```
 ```
 export PATH=$PATH:/usr/local/go/bin
-```
-```
 export GOROOT=/usr/local/go
-```
-```
 export GOPATH=$HOME/Projects/Proj1
-```
-```
 export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
-```
-```
 export GOROOT=/usr/local/go; export GOPATH=$HOME/Projects/Proj1; export PATH=$GOPATH/bin:$GOROOT/bin:$PATH; go get github.com/go-sql-driver/mysql; go get github.com/mattn/go-shellwords
 source ~/.bash_profile
 ```
