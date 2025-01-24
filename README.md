@@ -80,7 +80,7 @@ mkdir /etc/xcompile
 cd /etc/xcompile
 ```
 ```
-wget https://landley.net/aboriginal/downloads/old/binaries/1.2.6/cross-compiler-i586.tar.bz2
+wget https://github.com/R00tS3c/DDOS-RootSec/raw/refs/heads/master/uclib-cross-compilers/cross-compiler-i586.tar.bz2
 wget https://landley.net/aboriginal/downloads/old/binaries/1.2.6/cross-compiler-m68k.tar.bz2
 wget http://distro.ibiblio.org/slitaz/sources/packages/c/cross-compiler-mips.tar.bz2
 wget http://distro.ibiblio.org/slitaz/sources/packages/c/cross-compiler-mipsel.tar.bz2
@@ -91,7 +91,7 @@ wget http://distro.ibiblio.org/slitaz/sources/packages/c/cross-compiler-armv4l.t
 wget http://distro.ibiblio.org/slitaz/sources/packages/c/cross-compiler-armv5l.tar.bz2
 wget http://distro.ibiblio.org/slitaz/sources/packages/c/cross-compiler-armv6l.tar.bz2
 wget https://github.com/R00tS3c/DDOS-RootSec/raw/refs/heads/master/uclib-cross-compilers/cross-compiler-armv7l.tar.bz2
-wget http://distro.ibiblio.org/slitaz/sources/packages/c/cross-compiler-x86_64.tar.bz2
+wget https://github.com/R00tS3c/DDOS-RootSec/raw/refs/heads/master/uclib-cross-compilers/cross-compiler-x86_64.tar.bz2
 ```
 ```
 tar -jxf cross-compiler-i586.tar.bz2
