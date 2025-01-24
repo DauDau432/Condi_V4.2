@@ -87,8 +87,8 @@ mkdir /etc/xcompile
 cd /etc/xcompile
 ```
 ```
-wget https://www.uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-i586.tar.bz2
-wget https://www.uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-m68k.tar.bz2
+wget https://landley.net/aboriginal/downloads/old/binaries/1.2.6/cross-compiler-i586.tar.bz2
+wget https://landley.net/aboriginal/downloads/old/binaries/1.2.6/cross-compiler-m68k.tar.bz2
 wget http://distro.ibiblio.org/slitaz/sources/packages/c/cross-compiler-mips.tar.bz2
 wget http://distro.ibiblio.org/slitaz/sources/packages/c/cross-compiler-mipsel.tar.bz2
 wget http://distro.ibiblio.org/slitaz/sources/packages/c/cross-compiler-powerpc.tar.bz2
