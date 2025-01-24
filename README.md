@@ -89,16 +89,16 @@ cd /etc/xcompile
 ```
 wget https://www.uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-i586.tar.bz2
 wget https://www.uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-m68k.tar.bz2
-wget https://www.uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-mips.tar.bz2
-wget https://www.uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-mipsel.tar.bz2
-wget https://www.uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-powerpc.tar.bz2
-wget https://www.uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-sh4.tar.bz2
-wget https://www.uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-sparc.tar.bz2
-wget https://www.uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-armv4l.tar.bz2
-wget https://www.uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-armv5l.tar.bz2
+wget http://distro.ibiblio.org/slitaz/sources/packages/c/cross-compiler-mips.tar.bz2
+wget http://distro.ibiblio.org/slitaz/sources/packages/c/cross-compiler-mipsel.tar.bz2
+wget http://distro.ibiblio.org/slitaz/sources/packages/c/cross-compiler-powerpc.tar.bz2
+wget http://distro.ibiblio.org/slitaz/sources/packages/c/cross-compiler-sh4.tar.bz2
+wget http://distro.ibiblio.org/slitaz/sources/packages/c/cross-compiler-sparc.tar.bz2
+wget http://distro.ibiblio.org/slitaz/sources/packages/c/cross-compiler-armv4l.tar.bz2
+wget http://distro.ibiblio.org/slitaz/sources/packages/c/cross-compiler-armv5l.tar.bz2
 wget http://distro.ibiblio.org/slitaz/sources/packages/c/cross-compiler-armv6l.tar.bz2
 wget https://landley.net/aboriginal/downloads/old/binaries/1.2.6/cross-compiler-armv7l.tar.bz2
-wget https://www.uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-x86_64.tar.bz2
+wget http://distro.ibiblio.org/slitaz/sources/packages/c/cross-compiler-x86_64.tar.bz2
 ```
 ```
 tar -jxf cross-compiler-i586.tar.bz2
