@@ -89,7 +89,7 @@ wget http://distro.ibiblio.org/slitaz/sources/packages/c/cross-compiler-sparc.ta
 wget http://distro.ibiblio.org/slitaz/sources/packages/c/cross-compiler-armv4l.tar.bz2
 wget http://distro.ibiblio.org/slitaz/sources/packages/c/cross-compiler-armv5l.tar.bz2
 wget http://distro.ibiblio.org/slitaz/sources/packages/c/cross-compiler-armv6l.tar.bz2
-wget https://landley.net/aboriginal/downloads/old/binaries/1.2.6/cross-compiler-armv7l.tar.bz2
+wget https://github.com/R00tS3c/DDOS-RootSec/raw/refs/heads/master/uclib-cross-compilers/cross-compiler-armv7l.tar.bz2
 wget http://distro.ibiblio.org/slitaz/sources/packages/c/cross-compiler-x86_64.tar.bz2
 ```
 ```
