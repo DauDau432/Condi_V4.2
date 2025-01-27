@@ -1,2 +1,4 @@
-root root -1 600 2 all 1
-dau dau -1 300 2 all 1
+dau dau -1 300 5 all 1
+tai tai -1 300 5 all 1
+tri tri -1 300 5 all 1
+trinh trinh -1 300 5 all 1
